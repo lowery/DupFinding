@@ -9,7 +9,7 @@ Running the applications:
 in the Configuration properties files. (See below for their location)
 3. Run the desired application with:
 
-java -jar target/FP-DuplicateFinding-0.0.1-SNAPSHOT.jar Run -configFileName <filename> -<task> where <filename> is the configuration properties file name and <task> is one of the strings "vectorize", "cluster", "dumpClusters", "interpretClusters" (omitting quote marks).
+java -jar target/FP-DuplicateFinding-0.0.1-SNAPSHOT-jar-with-dependencies.jar Run -configFileName <filename> -<task> where <filename> is the configuration properties file name and <task> is one of the strings "vectorize", "cluster", "dumpClusters", "interpretClusters" (omitting quote marks).
 
 Normally, the tasks should initially be run once successfully in order 
 because each depends on the output of the previous. Occasionally there 
