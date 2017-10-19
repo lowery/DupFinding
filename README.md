@@ -28,8 +28,24 @@ DarwinCore Archive of plant specimen data from the New England Vascular Plants d
 to the model of nevpDup.properties.
 
 
+Among other properties, DupFinding/src/main/resources/nevpDup.properties must contain
+the value of a writable  working directory (property workingDir). In the $workingDir
+should reside a CSV file occurrences.small.csv containing a small set of occurrence
+records in CSV form, whose first line comprises headers from Darwin Core properties.
+the file occurrences.csv whichich is used if useSmall = false.
+
+It's important to note that what is here only builds the input to Hadoop MapReduce and
+I have not yet tried to deploy Hadoop in part because I used a fair bit of deprecated
+Hadoop. The bold may try to study and get it working following
+https://hadoop.apache.org/docs/r1.2.1/mapred_tutorial.html. I will try---but not
+with great hurry---to make current Hadoop work.
+
+What does Hadoop plus this project get one:
+
+
 
 Bob Morris
-November 2, 2014
+17 Oct 2017
+initially Nov 2, 2014
 
 
