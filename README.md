@@ -42,6 +42,38 @@ with great hurry---to make current Hadoop work.
 
 What does Hadoop plus this project get one:
 
+The code in class VectorizeGBIFOccrences carries
+invocations of three vectorization algorihms of
+strings:
+JARO_WINKLER and LEVENSTEIN distances between strings
+that are names of headers of columns in CSV files
+of the occurrence data
+are well known as string distances in data mining.
+The third, DATE_TIME, vectorizes date-time item as
+described in class DateToMillis. It is the number of
+milliseconds from the beginning of 1970 GMT. It can
+be negative.  Finally, class VectorizeGBIFOccrences
+holds an unimplemented vectorization for
+georeferencing.
+
+The software produces two sets of clusters:
+(a)simpleClusters.txt and (b)interpretedClusters.txt.
+The former is most suitable for further software analysis,
+the latter for human investegation.  Both can generally
+be read by spreadsheets.
+
+simpleClusters.txt has
+
+interpretedClusters.txt has a header line generally self
+explanatory to those familiar with DarwinCore, although not
+all exactly DwC. The first column contains a generated clusterID
+(or the word "cluser" as a seperator) Each row contains an element
+of the cluster, the occurrence id of which is in the second
+column. In a spreadsheet it easy to see  that cluster 19
+in interpretedClusters_2017100217.txt has over 800 alleged
+botanical duplicates.  Not only from the size of such a set,
+but also 
+
 
 
 Bob Morris
