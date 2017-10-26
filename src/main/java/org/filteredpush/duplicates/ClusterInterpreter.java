@@ -65,7 +65,7 @@ public class ClusterInterpreter {
 			
 			int firstSep = line.indexOf(occurrenceSeparator); //separator within occurrence items
 			Integer recID = new Integer(line.substring(0,firstSep)); //fails if  recID is not an integer....
-			String record = occurrenceSeparator+line.substring(firstSep+1);  //rest of record without iD
+			String record = line.substring(firstSep+1);  //rest of record without iD
 			records.put(recID, record);
 			numOccurrences++;
 		}
