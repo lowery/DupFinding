@@ -1,5 +1,9 @@
 package org.filteredpush.duplicates;
-
+//ram: class NEVP2hdfs corresponds to class OccurrenceVectors, but
+//class NEVP2hdfs supports two "weights" of string-based attributes
+//vectorized by Levenstein vectorization ("LEVENSTEIN").
+//By contrast, class OccurrenceVectors has only a single case of
+//string vectorization, based on JaroWinkler ("JARO_WINKLER").
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -85,11 +89,12 @@ public class NEVP2hdfs {
 		int inCollectorNumberIdx = labelMap.get("recordNumber");
 		
 		int inCollectionDateIdx = labelMap.get("eventDate");
-		int localityIdx = labelMap.get("locality");
+		int localityIdx =         labelMap.get("locality");
+		int stateProvinceIdx =    labelMap.get("stateProvince"); //ram
 		
 		//Now specify which features to record
-		int[] inFeatureIndex = { familyIdx,genusIdx,scientificNameIdx, inCollectorNameIdx, inCollectorNumberIdx, inCollectionDateIdx,  localityIdx}; //collectorIdx, collectorNumberIdx, localityIdx 
-		String[] inFeatureString = { "family","genus", "scientificName", "recordedBy","recordNumber",  "eventDate", "locality"}; 
+		int[] inFeatureIndex = { familyIdx,genusIdx,scientificNameIdx, inCollectorNameIdx, inCollectorNumberIdx, inCollectionDateIdx,  localityIdx, stateProvinceIdx}; //collectorIdx, collectorNumberIdx, localityIdx 
+		String[] inFeatureString = { "family","genus", "scientificName", "recordedBy","recordNumber",  "eventDate", "locality","stateProvince"}; 
 		int numInFeatures = inFeatureIndex.length; // number of features to vectorize
 					
 		//String[] outFeatureString  = {"recordedBy", "recordNumber", "eventDate", "locality"};
@@ -152,18 +157,18 @@ public class NEVP2hdfs {
 				boolean b1 = 	
 						"recordedBy".equals(str)
 						|| "recordNumber".equals(str)
-						|| "locality".equals(str);
-				boolean b2 = // high weight
-						"family".equals(str)
+				                || "stateProvince".equals(str)  //ram
+						|| "locality".equals(str)
+				                || "family".equals(str)
 						|| "genus".equals(str)
 						|| "scientificName".equals(str);
 				   
-				if (b1 || b2) { // MORE
+				if (b1) { // MORE
 					
 					value = VectorizeGBIFOccurrences.vectorize(data,
 							VectorizationAlgorithm.LEVENSTEIN); 
 					int outIdx = outFeatureMap.get(str);
-					if (b2) value *= 1;
+					//	if (b2) value *= 1;
 					featureVec[outIdx] = value;
 					dataNull = false;
 					
