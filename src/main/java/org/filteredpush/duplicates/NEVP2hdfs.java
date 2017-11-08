@@ -50,14 +50,14 @@ public class NEVP2hdfs {
 	assert (idIdx == 0); // it should be the first column
 	//	Assert.assertNotNull(labelMap);
 		
-	int[] inFeatureIndex = null ;
+	int[] inFeatureIndex = new int[numInFeatures];
 	for (int i = 0; i < numInFeatures; i++)  inFeatureIndex[i] = i;
 
 		//calculate outFeatureMap.  Its inverse is the mahout dictionary
 	String df = cfg.getWorkingDir()+"dictionary.txt";
 		
 	PrintStream dictionary = new PrintStream(new File(df));
-	String[] outFeatureStringArray = null; /* inFeatureString; */
+	String[] outFeatureStringArray = new String[numInFeatures]; /* inFeatureString; */
 	int numOutFeatures =  outFeatureStringArray.length;
 	dictionary.println(numOutFeatures);
 	HashMap<String, Integer> outFeatureMap = new HashMap<String, Integer>();
@@ -93,7 +93,7 @@ public class NEVP2hdfs {
 			// precondition buf[0] = local data record id
 	    boolean dataNull = false;
 	    int outFeature = 0;
-	    String[] inFeatureStringArray = null;
+
 	    for (int inFeature = 0; inFeature < numInFeatures; inFeature++) {
 		dataNull = true;
 		double value = 0.0;
