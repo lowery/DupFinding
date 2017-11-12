@@ -3,17 +3,21 @@ package org.filteredpush.duplicates;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Arrays;
 
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.apache.commons.cli.CommandLine;
-
+import org.filteredpush.duplicates.vectorize.EventDateVectorizer;
+import org.filteredpush.duplicates.vectorize.OccurrenceVectorizer;
+import org.filteredpush.duplicates.vectorize.Vectorizer;
 
 
 public class Run {
 	static final String hdfwrite = "hdfwrite";
+	static final Vectorizer[] vectorizers = { new OccurrenceVectorizer(), new EventDateVectorizer() };
 
 
 	public Run(String configFileName) {
@@ -62,8 +66,8 @@ public class Run {
 			 //should check for which config is here and switch on it
 			 //For now assume its NEVP
 			 	System.err.println("In Run, vectorizing");
-			 	NEVP2hdfs hdfsWriter = new NEVP2hdfs();
-				hdfsWriter.execute(cfg);
+			 	NEVP2hdfs hdfsWriter = new NEVP2hdfs(cfg, Arrays.asList(vectorizers));
+				hdfsWriter.execute();
 		 } else if (cmd.hasOption("cluster")){
 				DupDriver cluster = new DupDriver();
 				int numClusters =cluster.execute(cfg);

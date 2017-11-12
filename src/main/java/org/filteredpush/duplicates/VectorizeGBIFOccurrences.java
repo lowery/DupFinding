@@ -4,11 +4,6 @@ import org.apache.lucene.search.spell.JaroWinklerDistance;
 import org.apache.lucene.search.spell.LevensteinDistance;
 import org.joda.time.DateTime;
 
-enum VectorizationAlgorithm {
-	JARO_WINKLER, LEVENSTEIN, DATE_TIME, LAT_LONG;
-
-}
-
 /**
  * @author Robert A. Morris
  * 
