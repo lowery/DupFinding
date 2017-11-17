@@ -16,18 +16,11 @@ import au.com.bytecode.opencsv.CSVParser;
 
 public class NEVP2hdfs {
     private List<Vectorizer> vectorizers;
-    private Config config;
-
-    private BufferedReader reader;
-    private GbifMetadata meta;
-
-    private Map<String, Integer> labelMap;
-
     private LinkedList<String> features = new LinkedList<>();
 
+    private Config config;
 
     public NEVP2hdfs(Config config, List<Vectorizer> vectorizers) throws IOException {
-        this.config = config;
         this.vectorizers = vectorizers;
 
         for (Vectorizer vectorizer : vectorizers) {
@@ -47,39 +40,19 @@ public class NEVP2hdfs {
             dictionary.close();
         }
 
-        loadDataset();
-        initLabelMap();
+        this.config = config;
     }
 
-    private void loadDataset() throws IOException {
-        String dataset = "occurrences" + (config.isUseSmall() ? ".small" : "") + ".csv"; // add postfix to use .small or .med test set
-        String occurrenceFileName = config.getWorkingDir() + dataset;
-        System.err.println("occurrenceFileName=" + occurrenceFileName);
 
-        //InputStream in = this.getClass().getClassLoader().getResourceAsStream(inputString);
-        FileInputStream in = new FileInputStream(occurrenceFileName);
-        char quoteChar = config.getQuoteChar();
-        char separator = config.getOccurrenceSeparator();
-
-        reader = new BufferedReader(new InputStreamReader(in));
-        meta = new GbifMetadata(reader, separator, quoteChar);
-        //Assert.assertNotNull(reader);
-    }
-
-    private void initLabelMap() throws IOException {
-        //assert (meta != null);
-        labelMap = meta.getlabelMap(); // ADVANCES READER BY FIRST LINE, which has headers
-
-        System.out.println("labelMap size: " + labelMap.size());
-        System.out.println("labelMap = " + labelMap);
-        System.err.println("131: " + config.getWorkingDir() + " " + config.getRecordID());
-
-        int idIdx = labelMap.get(config.getRecordID());
-        assert (idIdx == 0); // it should be the first column
-        //	Assert.assertNotNull(labelMap);
-    }
 
     public void execute() throws Exception {
+        // Load occurrence data
+        OccurrenceData occurrenceData = new OccurrenceData(config);
+        GbifMetadata meta = occurrenceData.getMetadata();
+        BufferedReader reader = occurrenceData.getReader();
+
+        Map<String, Integer> labelMap = occurrenceData.getLabelMap();
+
         // Load vectors file for writing
         Configuration conf = new Configuration();
         FileSystem fs = FileSystem.get(conf);

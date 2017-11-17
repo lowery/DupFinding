@@ -17,8 +17,8 @@ import org.filteredpush.duplicates.vectorize.Vectorizer;
 
 public class Run {
 	static final String hdfwrite = "hdfwrite";
-	static final Vectorizer[] vectorizers = { new OccurrenceVectorizer(), new EventDateVectorizer() };
-
+	//static final Vectorizer[] vectorizers = { new OccurrenceVectorizer(), new EventDateVectorizer() };
+	static final Vectorizer[] vectorizers = { new OccurrenceVectorizer() };
 
 	public Run(String configFileName) {
 	//	URL url = this.getClass().getResource(configFileName);
@@ -62,6 +62,10 @@ public class Run {
 				Config cfg = new Config();
 				cfg.configure(inputStream);
 				System.err.println("WorkingDir: "+ cfg.getWorkingDir());
+
+				// TODO: Just to test for now, give this it's own option later if it works
+				HierarchicalClustering clustering = new HierarchicalClustering(cfg);
+
 		 if (cmd.hasOption("vectorize")) {
 			 //should check for which config is here and switch on it
 			 //For now assume its NEVP
